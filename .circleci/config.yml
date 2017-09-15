@@ -12,7 +12,8 @@ jobs:
                         - run:
                                 name: Install Google Cloud
                                 command: curl https://sdk.cloud.google.com | bash
-                        - run:  name: Install Docker
+                        - run:
+                                name: Install Docker
                                 command: |
                                   set -x
                                   VER="17.03.0-ce"
