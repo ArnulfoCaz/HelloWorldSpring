@@ -31,8 +31,6 @@ jobs:
                         - run:
                                 command: ~/google-cloud-sdk/bin/gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
                         - run:
-                                command: cd ~/google-cloud-sdk | ls -l -a
+                                command: ~/tmp/docker build -t us.gcr.io/${GOOGLE_PROJECT_ID}/hello-spring:$CIRCLE_SHA1 .
                         - run:
-                                command: ~/tmp/Docker/resources/docker build -t us.gcr.io/${GOOGLE_PROJECT_ID}/hello-spring:$CIRCLE_SHA1 .
-                        - run:
-                                command: ~/Docker/resources/docker tag us.gcr.io/${GOOGLE_PROJECT_ID}/hello-spring:$CIRCLE_SHA1 us.gcr.io/${GOOGLE_PROJECT_ID}/hello-google:latest
+                                command: ~/tmp/docker tag us.gcr.io/${GOOGLE_PROJECT_ID}/hello-spring:$CIRCLE_SHA1 us.gcr.io/${GOOGLE_PROJECT_ID}/hello-google:latest
