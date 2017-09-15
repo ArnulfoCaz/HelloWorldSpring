@@ -1,0 +1,29 @@
+version: 2
+jobs:
+        build:
+                working_directory: ~/starter
+                environment:
+                        - CLOUDSDK_CORE_DISABLE_PROMPTS: "1"
+                docker:
+                        - image: circleci/node:4.8.3
+                steps:
+                        - checkout
+                        - run: echo "Hello World!"
+                        - run:
+                                name: Install Google Cloued
+                                command: curl https://sdk.cloud.google.com | bash
+                        - run:
+                                command: ~/google-cloud-sdk/bin/gcloud version
+                        - run:
+                                name: Decode Google Cloud Credentials
+                                command: echo ${GOOGLE_AUTH} | base64 -i --decode > ${HOME}/gcp-key.json
+                        - run:
+                                command: ~/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
+                        - run:
+                                command: ~/google-cloud-sdk/bin/gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+                        - run:
+                                command: ~/google-cloud-sdk/bin/gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+                        - run:
+                                command: docker build -t us.gcr.io/${GOOGLE_PROJECT_ID}/hello-spring:$CIRCLE_SHA1 .
+                        - run:
+                                command: docker tag us.gcr.io/${GOOGLE_PROJECT_ID}/hello-spring:$CIRCLE_SHA1 us.gcr.io/${GOOGLE_PROJECT_ID}/hello-google:latest
