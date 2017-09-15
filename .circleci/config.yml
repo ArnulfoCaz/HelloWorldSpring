@@ -1,11 +1,10 @@
 version: 2
 jobs:
         build:
-                working_directory: ~/starter
                 environment:
                         - CLOUDSDK_CORE_DISABLE_PROMPTS: "1"
                 docker:
-                        - image: alpine: latest
+                        - image: alpine:latest
                 steps:
                         - checkout
                         - run: echo "Hello World!"
