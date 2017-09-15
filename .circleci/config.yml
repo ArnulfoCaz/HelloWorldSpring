@@ -20,7 +20,6 @@ jobs:
                         - run:
                                 name: Install Google Cloud
                                 command: curl https://sdk.cloud.google.com | bash
-
                         - run:
                                 command: ~/google-cloud-sdk/bin/gcloud version
                         - run:
@@ -32,6 +31,8 @@ jobs:
                                 command: ~/google-cloud-sdk/bin/gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
                         - run:
                                 command: ~/google-cloud-sdk/bin/gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+                        - run:
+                                command: gradle build
                         - run:
                                 command: docker build -t us.gcr.io/${GOOGLE_PROJECT_ID}/hello-spring:$CIRCLE_SHA1 .
                         - run:
